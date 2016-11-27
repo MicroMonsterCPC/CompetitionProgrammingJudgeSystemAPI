@@ -1,4 +1,4 @@
-#How to JudgeSystem
+#How to JudgeSystem(β)
 
 作成した回答ファイルをcodeの中に入れてください、judge.rbを実行して、
 自分のGitHubUserNameを入力してください次に  
@@ -10,7 +10,7 @@
 ~~~
 UserName
 lang
-question_id
+Question_id
 ~~~
 
 ##扱える言語

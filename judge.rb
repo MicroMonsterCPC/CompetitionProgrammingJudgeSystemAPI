@@ -35,7 +35,8 @@ class JudgeSystem
       result = %x( ruby #{@input_answer_path} < #{@input_path} ) 
       return result == @answer
     when "cr"
-      puts %x( crystal #{file.path}  )
+      result = %x( crystal #{@input_answer_path} < #{@input_path} ) 
+      return result == @answer
     end
   end
 end

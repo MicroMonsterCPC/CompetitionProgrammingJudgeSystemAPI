@@ -11,7 +11,7 @@ class JudgeSystem
   attr_accessor :lang, :user_name, :question_id, :input_anwer_path, :ansewr_path, :input_path, :count
 
   def main
-    while 3 == @count
+    while 3 > @count
       @count += 1
       code_path
       result = code_run

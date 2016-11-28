@@ -37,6 +37,9 @@ class JudgeSystem
     when "cr"
       result = %x( crystal #{@input_answer_path} < #{@input_path} ) 
       return result == @answer
+    when "py"
+      result = %x( python #{@input_answer_path} < #{@input_path} ) 
+      return result == @answer
     end
   end
 end

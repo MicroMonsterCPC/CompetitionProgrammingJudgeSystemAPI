@@ -14,7 +14,8 @@ class Setup
     lang = {
       "ruby"    => "rb",
       "crystal" => "cr",
-      "c#"      => "cs"
+      "c#"      => "cs",
+      "python"  => "py"
     }[gets.chomp]
     return lang
   end

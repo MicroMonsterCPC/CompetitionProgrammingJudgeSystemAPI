@@ -39,7 +39,10 @@ class JudgeSystem
       result = %x( crystal #{@input_answer_path} < #{@input_path} ) 
       return result == @answer
     when "py"
-      result = %x( python #{@input_answer_path} < #{@input_path} ) 
+      result = %x( python3 #{@input_answer_path} < #{@input_path} ) 
+      return result == @answer
+    when "cs"
+      result = %x( mcs #{@input_answer_path} ; mono #{@input_answer_path}.exe < #{@input_path}) 
       return result == @answer
     end
   end

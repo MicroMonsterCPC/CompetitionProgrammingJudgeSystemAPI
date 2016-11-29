@@ -6,7 +6,7 @@ class Setup
     user_name      = input_user_name
     question_id    = input_question_id
     question_level = input_question_level
-    js = JudgeSystem.new(user_name, lang, question_id); js.main
+    js = JudgeSystem.new(user_name, lang, question_id, question_level); js.main
   end
 
   def select_lang

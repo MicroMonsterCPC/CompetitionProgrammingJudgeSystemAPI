@@ -2,9 +2,10 @@ require './judge'
 
 class Setup
   def main
-    lang        = select_lang
-    user_name   = input_user_name
-    question_id = input_question_id
+    lang           = select_lang
+    user_name      = input_user_name
+    question_id    = input_question_id
+    question_level = input_question_level
     js = JudgeSystem.new(user_name, lang, question_id); js.main
   end
 
@@ -26,6 +27,11 @@ class Setup
   def input_question_id
     puts "ジャッジするQuestionIdを入力してください(20161125)"
     return gets.to_i
+  end
+
+  def input_question_level
+    puts "QuestionLevalを入力してください(EXPERT)"
+    return gets.chomp
   end
 end
 

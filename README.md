@@ -8,15 +8,19 @@
 ###入力フォーマット
 
 ~~~
-UserName
-lang
-Question_id
+#Dockerで実行した場合、◯◯を入力してくださいというmessageが出てこないので↓以下の順で入力していってください
+UseLang(例: ruby)
+UserName(例: JpnLavender)
+QuestionID(例: 201161125)
+QuestionLevel(例: MASTER)
 ~~~
 
 ##扱える言語
 
 ~~~
+#言語を指定する場合は以下と同じ形式で入力してください
 ruby
-C#
-Crystal
+c#
+crystal
+python
 ~~~

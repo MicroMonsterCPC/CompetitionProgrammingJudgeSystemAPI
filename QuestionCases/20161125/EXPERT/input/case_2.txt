@@ -1,0 +1,8 @@
+8 1
+9 2
+5
+top 2
+bottom 1
+right 1
+left 2
+top 1

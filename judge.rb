@@ -33,17 +33,20 @@ class JudgeSystem
   def code_run
     case @lang
     when "rb"
-      result = %x( ruby #{@input_answer_path} < #{@input_path} ) 
-      return result == @answer
+      post_data("ruby")
     when "cr"
-      result = %x( crystal #{@input_answer_path} < #{@input_path} ) 
-      return result == @answer
+      post_data("crystal")
     when "py"
-      result = %x( python3 #{@input_answer_path} < #{@input_path} ) 
-      return result == @answer
+      post_data("python3")
     when "cs"
-      result = %x( mcs #{@input_answer_path} ; mono #{@input_answer_path}.exe < #{@input_path}) 
+      @input_answer_path.slice!(/\.cs/)
+      result = %x( mcs #{@input_answer_path}.cs ; mono #{@input_answer_path}.exe < #{@input_path})
       return result == @answer
     end
+  end
+
+  def post_data(lang)
+      result = %x( #{lang} #{@input_answer_path} < #{@input_path} ) 
+      return result == @answer
   end
 end

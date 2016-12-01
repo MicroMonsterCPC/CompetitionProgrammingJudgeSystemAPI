@@ -16,7 +16,7 @@ class JudgeSystem
       @count += 1
       code_path
       result = code_run
-      puts (result ? "CLEAR！" : "BAD")
+      puts (result ? "OK" : "NG")
     end
   end
 

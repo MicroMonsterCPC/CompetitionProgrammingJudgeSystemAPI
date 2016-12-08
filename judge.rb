@@ -38,6 +38,8 @@ class JudgeSystem
       post_data("crystal")
     when "py"
       post_data("python3")
+    when "js"
+      post_data("node")
     when "cs"
       @input_answer_path.slice!(/\.cs/)
       result = %x( mcs #{@input_answer_path}.cs ; mono #{@input_answer_path}.exe < #{@input_path})

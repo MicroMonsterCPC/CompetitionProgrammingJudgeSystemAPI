@@ -12,10 +12,11 @@ class Setup
   def select_lang
     puts "使用した言語を入力してください"
     lang = {
-      "ruby"    => "rb",
-      "crystal" => "cr",
-      "c#"      => "cs",
-      "python"  => "py"
+      "ruby"       => "rb",
+      "crystal"    => "cr",
+      "c#"         => "cs",
+      "python"     => "py",
+      "javascript" => "js"
     }[gets.chomp]
     return lang
   end

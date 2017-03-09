@@ -1,6 +1,0 @@
-1 4
-2 0
-3
-left 2
-top 1
-right 2

@@ -1,1 +1,9 @@
 <h1>HelloWorld</h1>
+
+<% unless current_user %>
+  <%= link_to "Login", "/auth/github" %>
+<% else %>
+  <%= current_user.name %>
+  <%= link_to "LogOut", logout_path %>
+<% end %>
+

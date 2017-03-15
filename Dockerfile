@@ -1,8 +1,22 @@
-FROM ruby:2.3.1
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
-RUN mkdir /myapp
-WORKDIR /myapp
-ADD Gemfile /myapp/Gemfile
-ADD Gemfile.lock /myapp/Gemfile.lock
-RUN bundle install
-ADD . /myapp
+FROM ruby:2.4.0-alpine
+
+ENV APP /app
+WORKDIR $APP
+
+RUN apk --update add --virtual build-deps \
+    build-base \
+  && apk add \
+    postgresql-dev \
+    tzdata \
+  && rm -rf /var/cache/apk/* \
+  && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+COPY . $APP
+
+RUN bundle install --jobs=4 --path vendor/bundle \
+  && mkdir -p $APP/tmp/cache \
+  && mkdir -p $APP/tmp/pids \
+  && mkdir -p $APP/tmp/sockets
+
+RUN apk del build-deps \
+  && rm -rf /var/cache/apk/*

@@ -1,0 +1,16 @@
+*
+
+!Gemfile
+!Gemfile.lock
+!Rakefile
+!config.ru
+
+!bin/*
+!app/*
+!config/*
+!db/*
+!lib/*
+!public/*
+!vendor/*
+
+vendor/bundle

@@ -6,13 +6,15 @@ services:
     volumes:
     - postgres_data:/var/lib/postgresql/data
 
-  puma:
+  web:
     build:
       context: .
     command: bundle exec puma --config config/puma.rb
     environment:
     - RAILS_ENV=development
     - PORT=3000
+    - GITHUB_KEY
+    - GITHUB_SECRET
     volumes:
     - .:/app
     - bundle_install:/app/vendor/bundle

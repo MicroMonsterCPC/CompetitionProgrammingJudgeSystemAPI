@@ -6,6 +6,14 @@ import (
 	"net/http"
 )
 
+type (
+	answerDataJson struct {
+		QuestionID string `json:"question_id"`
+		AnswerData string `json:"answer_data"`
+		Lang       string `json:"lang"`
+	}
+)
+
 func main() {
 	e := echo.New()
 	e.GET("/", homePage)
@@ -14,11 +22,16 @@ func main() {
 }
 
 func answerData(c echo.Context) error {
-	Judge.Read() //受け取った解答データをReadに投げる
-	result := map[string]string{
-		"foo":  "bar",
-		"hoge": "fuga",
+	data := new(answerDataJson)
+	if err := c.Bind(data); err != nil {
+		return err
 	}
+	result := map[string]string{
+		"QuestionID": data.QuestionID,
+		"AnswerData": data.AnswerData,
+		"Lang":       data.Lang,
+	}
+	Judge.Main(result) //受け取った解答データをReadに投げる
 	return c.JSON(http.StatusOK, result)
 }
 

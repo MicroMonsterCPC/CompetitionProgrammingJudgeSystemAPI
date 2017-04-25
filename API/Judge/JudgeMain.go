@@ -13,23 +13,47 @@ import (
 ==================================*/
 
 func Main(data map[string]string) {
-	file := "WorkSpace/Main." + data["Lang"]
-	// questionFile := "Questions/" + data["QuestionID"] + "/input.txt"
+	file := "Judge/WorkSpace/Main." + data["Lang"]
 	answerData := data["AnswerData"]
 
 	if err := MakeWorkSpace(); err == nil {
 		if err := MakeAnswerFile(file); err == nil {
 			if err := InputAnswer(answerData, file); err == nil {
-				fmt.Println("DONE!")
+				if err := RunJudge(file, data["Lang"], data["QuestionID"]); err == nil {
+					fmt.Println("DONE!")
+					DelWorkSpace()
+				} else {
+					DelWorkSpace()
+				}
 			} else {
-				DelAnswerFile(file)
+				DelWorkSpace()
 			}
 		} else {
-			DelAnswerFile(file)
+			DelWorkSpace()
 		}
 	} else {
 		DelWorkSpace()
 	}
+}
+
+func RunCmd(file, lang string) (ret string) {
+	switch lang {
+	case "rb":
+		ret = "ruby " + file
+		fmt.Println(ret)
+	case "py":
+		ret = "python " + file
+	}
+	return
+}
+
+func RunJudge(file, lang, id string) (err error) {
+	cmd := "Judge/run.sh " + RunCmd(file, lang) + " " + id
+	fmt.Println(cmd)
+	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
+		fmt.Println("Runコマンドが失敗しました")
+	}
+	return
 }
 
 func InputAnswer(answerData, file string) (err error) {
@@ -54,14 +78,14 @@ func MakeAnswerFile(file string) (err error) {
 	return
 }
 func DelWorkSpace() (err error) {
-	if err = exec.Command("rm", "-rf", "WorkSpace").Run(); err != nil {
+	if err = exec.Command("rm", "-rf", "Judge/WorkSpace").Run(); err != nil {
 		fmt.Println("WorkSpaceの削除に失敗しました")
 	}
 	return
 }
 
 func MakeWorkSpace() (err error) {
-	if err = exec.Command("mkdir", "WorkSpace").Run(); err != nil {
+	if err = exec.Command("mkdir", "Judge/WorkSpace").Run(); err != nil {
 		fmt.Println("WorkSpaceの作成が失敗しました")
 	}
 	return

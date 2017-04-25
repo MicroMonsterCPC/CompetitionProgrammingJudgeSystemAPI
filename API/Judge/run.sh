@@ -1,15 +1,16 @@
 #!/bin/bash
 
-##########################
-#テスト用
-cmd="ruby main.rb"
-id="D001"
-##########################
+####################
+#args
+run_cmd=("${1} ${2}")
+id=$3
+####################
+touch data 
 
-cat Questions/$id/input.txt | while read line
+cat Judge/Questions/$id/input.txt | while read line
 do
     data=(`echo $line | tr -s ',' ' '`)
-    result=$(echo ${data[0]} | eval ${cmd})
+    result=$(echo ${data[0]} | eval ${run_cmd})
     judge=$(test $result = ${data[1]}; echo $?) 
     if [ $judge -eq 0 ]; then
         echo "true" >> data

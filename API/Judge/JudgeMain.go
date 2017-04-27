@@ -49,7 +49,7 @@ func RunCmd(file, lang string) (ret string) {
 }
 
 func RunJudge(file, lang, id string) (err error) {
-	cmd := "Judge/run.sh " + RunCmd(file, lang) + " " + id
+	cmd := "Judge/docker_container_start.sh" + RunCmd(file, lang) + " " + id
 	fmt.Println(cmd)
 	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
 		fmt.Println("Runコマンドが失敗しました")

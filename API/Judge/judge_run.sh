@@ -1,20 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
 ####################
 #args
-run_cmd=("${1} ${2}")
-id=$3
+run_cmd="${1} ${2}"
 ####################
-touch data 
 
-cat Judge/Questions/$id/input.txt | while read line
+echo "---------- Starting Judge ----------"
+
+cat WorkSpace/input.txt | while read line
 do
-    data=(`echo $line | tr -s ',' ' '`)
-    result=$(echo ${data[0]} | eval ${run_cmd})
-    judge=$(test $result = ${data[1]}; echo $?) 
+    input=$(echo $line | cut -d "," -f1)
+    output=$(echo $line | cut -d "," -f2)
+    result=$(echo $input | eval ${run_cmd})
+    judge=$(test $result = $output; echo $?) 
     if [ $judge -eq 0 ]; then
-        echo "true" >> data
+        echo "true" >> WorkSpace/data
     else
-        echo "false" >> data
+        echo "false" >> WorkSpace/data
     fi
 done

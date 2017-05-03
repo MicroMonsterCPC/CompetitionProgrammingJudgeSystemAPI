@@ -7,8 +7,6 @@ import (
 
 /*==================================
 # todo
-- パースしたデータをDockerに流し込む
-- (AnswerDataFile&input.txt&RunCmd)
 - 帰ってきたJudgeデータをパースする
 - パースしたデータをMainに返す
 ==================================*/
@@ -19,10 +17,13 @@ func Main(data map[string]string) {
 
 	if err := MakeWorkSpace(); err == nil {
 		if err := MakeAnswerFile(file); err == nil {
-			if err := InputAnswer(answerData, file); err == nil {
-				if err := RunJudge(file, data["Lang"], data["QuestionID"]); err == nil {
-					fmt.Println("DONE!")
-					DelWorkSpace()
+			if err := CopyJudgeFile(data["QuestionID"]); err == nil {
+				if err := InputAnswer(answerData, file); err == nil {
+					if err := RunJudge(data["Lang"]); err == nil {
+						fmt.Println("DONE!")
+					} else {
+						DelWorkSpace()
+					}
 				} else {
 					DelWorkSpace()
 				}
@@ -37,22 +38,27 @@ func Main(data map[string]string) {
 	}
 }
 
-func RunCmd(file, lang string) (ret string) {
+func RunCmd(lang string) (ret string) {
 	switch lang {
 	case "rb":
-		ret = "ruby " + file
-		fmt.Println(ret)
+		ret = "ruby WorkSpace/Main.rb"
 	case "py":
-		ret = "python " + file
+		ret = "python WorkSpace/Main.py"
 	}
 	return
 }
 
-func RunJudge(file, lang, id string) (err error) {
-	cmd := "Judge/docker_container_start.sh" + RunCmd(file, lang) + " " + id
-	fmt.Println(cmd)
-	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
+func RunJudge(lang string) (err error) {
+	if err = exec.Command("sh", "-c", "./Judge/docker_container_start.sh ", RunCmd(lang)).Run(); err != nil {
 		fmt.Println("Runコマンドが失敗しました")
+	}
+	return
+}
+
+func CopyJudgeFile(questionID string) (err error) {
+	cmd := "cp Judge/Questions/" + questionID + "/input.txt " + "Judge/WorkSpace"
+	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
+		fmt.Println("inputFileのコピーが失敗しました")
 	}
 	return
 }
@@ -76,11 +82,17 @@ func MakeAnswerFile(file string) (err error) {
 	if err = exec.Command("touch", file).Run(); err != nil {
 		fmt.Println("AnswerFileの作成が失敗しました")
 	}
+	copyCmd := "cp Judge/judge_run.sh Judge/WorkSpace"
+	if err = exec.Command("sh", "-c", copyCmd).Run(); err != nil {
+		fmt.Println("JudgeRun.shのコピーに失敗しました")
+	}
 	return
 }
 func DelWorkSpace() (err error) {
 	if err = exec.Command("rm", "-rf", "Judge/WorkSpace").Run(); err != nil {
 		fmt.Println("WorkSpaceの削除に失敗しました")
+	} else {
+		fmt.Println("WorkSpaceを削除しました")
 	}
 	return
 }

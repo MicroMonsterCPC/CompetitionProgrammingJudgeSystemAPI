@@ -21,6 +21,7 @@ func Main(data map[string]string) {
 				if err := InputAnswer(answerData, file); err == nil {
 					if err := RunJudge(data["Lang"]); err == nil {
 						fmt.Println("DONE!")
+						//今後ここに帰ってきたデータを処理するコードを書く
 					} else {
 						DelWorkSpace()
 					}
@@ -38,12 +39,14 @@ func Main(data map[string]string) {
 	}
 }
 
-func RunCmd(lang string) (ret string) {
+func RunCmd(lang string) (cmd, image string) {
 	switch lang {
 	case "rb":
-		ret = "ruby WorkSpace/Main.rb"
+		cmd = "ruby WorkSpace/Main.rb"
+		image = "ruby:2.3.4-alpine"
 	case "py":
-		ret = "python WorkSpace/Main.py"
+		cmd = "python WorkSpace/Main.py"
+		image = "python:2-alpine"
 	}
 	return
 }

@@ -1,7 +1,7 @@
 #!/bin/sh
 ################################
 run_cmd="${1} ${2}"
-imageName="ruby:2.3.4-alpine" # imageName=$1
+imageName=$3
 ################################
 
 echo "---------- Starting Docker ----------"

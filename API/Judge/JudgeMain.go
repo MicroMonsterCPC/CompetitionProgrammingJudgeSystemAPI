@@ -1,15 +1,16 @@
 package Judge
 
+/*==================================
+#役割
+MAPにされた解答データを、
+Dockerに流し込んで
+実行結果ファイルを作りReadfileに投げる
+==================================*/
+
 import (
 	"fmt"
 	"os/exec"
 )
-
-/*==================================
-# todo
-- 帰ってきたJudgeデータをパースする
-- パースしたデータをMainに返す
-==================================*/
 
 func Main(data map[string]string) (ret []map[string]string) {
 	file := "Judge/WorkSpace/Main." + data["Lang"]

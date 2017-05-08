@@ -22,6 +22,7 @@ func main() {
 }
 
 func answerData(c echo.Context) error {
+	//POSTされてきたJSONデータをMAPに変換してJudgeに流す
 	data := new(answerDataJson)
 	if err := c.Bind(data); err != nil {
 		return err

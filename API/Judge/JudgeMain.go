@@ -11,7 +11,7 @@ import (
 - パースしたデータをMainに返す
 ==================================*/
 
-func Main(data map[string]string) (ret []string) {
+func Main(data map[string]string) (ret []map[string]string) {
 	file := "Judge/WorkSpace/Main." + data["Lang"]
 	answerData := data["AnswerData"]
 

@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"github.com/k0kubun/pp"
 	"os"
+	"strconv"
 )
 
-func Read() (ret []string) {
+func Read() (ret []map[string]string) {
 	file, err := os.Open(`Judge/WorkSpace/data`)
 	if err != nil {
-		// Openエラー処理
+		fmt.Println("ファイルが見つかりませんでした")
 	}
 	defer file.Close()
 	sc := bufio.NewScanner(file)
@@ -18,8 +19,12 @@ func Read() (ret []string) {
 		if err := sc.Err(); err != nil {
 			break
 		}
-		t := sc.Text()
-		ret = append(ret, t)
+		//ToDo: ここでData（,区切り）のデータをSplitしてMapに入れる
+		value := map[string]string{
+			"ID":     strconv.Itoa(i),
+			"Result": sc.Text(),
+		}
+		ret = append(ret, value)
 	}
 	pp.Println(ret)
 	return

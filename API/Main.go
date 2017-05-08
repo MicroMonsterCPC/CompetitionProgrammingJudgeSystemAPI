@@ -31,9 +31,10 @@ func answerData(c echo.Context) error {
 		"AnswerData": data.AnswerData,
 		"Lang":       data.Lang,
 	}
-	judgeResult := Judge.Main(userResult) //受け取った解答データをReadに投げる
-	result := map[string]string{
-		"Result": judgeResult[0],
+	var judgeResult []map[string]string = Judge.Main(userResult)
+	//受け取ったUserの解答データをJudgeに投げる
+	result := map[string][]map[string]string{
+		"Result": judgeResult,
 	}
 	return c.JSON(http.StatusOK, result)
 }

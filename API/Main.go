@@ -3,6 +3,7 @@ package main
 import (
 	"./Judge"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"net/http"
 )
 
@@ -16,8 +17,15 @@ type (
 
 func main() {
 	e := echo.New()
+
+	//=======Middleware=======
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	//=======Routers=======
 	e.GET("/", homePage)
 	e.POST("/answer-data", answerData)
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
 

@@ -11,7 +11,7 @@ import (
 - パースしたデータをMainに返す
 ==================================*/
 
-func Main(data map[string]string) {
+func Main(data map[string]string) (ret []string) {
 	file := "Judge/WorkSpace/Main." + data["Lang"]
 	answerData := data["AnswerData"]
 
@@ -21,22 +21,14 @@ func Main(data map[string]string) {
 				if err := InputAnswer(answerData, file); err == nil {
 					if err := RunJudge(data["Lang"]); err == nil {
 						fmt.Println("DONE!")
-						//今後ここに帰ってきたデータを処理するコードを書く
-					} else {
-						DelWorkSpace()
+						ret = Read()
 					}
-				} else {
-					DelWorkSpace()
 				}
-			} else {
-				DelWorkSpace()
 			}
-		} else {
-			DelWorkSpace()
 		}
-	} else {
-		DelWorkSpace()
 	}
+	DelWorkSpace()
+	return
 }
 
 func RunCmd(lang string) (cmd, image string) {
@@ -52,7 +44,9 @@ func RunCmd(lang string) (cmd, image string) {
 }
 
 func RunJudge(lang string) (err error) {
-	if err = exec.Command("sh", "-c", "./Judge/docker_container_start.sh ", RunCmd(lang)).Run(); err != nil {
+	cmd, image := RunCmd(lang)
+	runCmd := "./Judge/docker_container_start.sh " + cmd + " " + image
+	if err = exec.Command("sh", "-c", runCmd).Run(); err != nil {
 		fmt.Println("Runコマンドが失敗しました")
 	}
 	return

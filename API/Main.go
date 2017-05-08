@@ -26,12 +26,15 @@ func answerData(c echo.Context) error {
 	if err := c.Bind(data); err != nil {
 		return err
 	}
-	result := map[string]string{
+	userResult := map[string]string{
 		"QuestionID": data.QuestionID,
 		"AnswerData": data.AnswerData,
 		"Lang":       data.Lang,
 	}
-	Judge.Main(result) //受け取った解答データをReadに投げる
+	judgeResult := Judge.Main(userResult) //受け取った解答データをReadに投げる
+	result := map[string]string{
+		"Result": judgeResult[0],
+	}
 	return c.JSON(http.StatusOK, result)
 }
 

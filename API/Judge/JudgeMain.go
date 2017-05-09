@@ -16,17 +16,25 @@ func Main(data map[string]string) (ret []map[string]string) {
 	file := "Judge/WorkSpace/Main." + data["Lang"]
 	answerData := data["AnswerData"]
 
-	if err := MakeWorkSpace(); err == nil {
-		if err := MakeAnswerFile(file); err == nil {
-			if err := CopyJudgeFile(data["QuestionID"]); err == nil {
-				if err := InputAnswer(answerData, file); err == nil {
-					if err := RunJudge(data["Lang"]); err == nil {
-						fmt.Println("DONE!")
-						ret = Read()
-					}
-				}
-			}
+	for {
+		if err := MakeWorkSpace(); err != nil {
+			fmt.Println(err)
+			break
 		}
+		if err := MakeAnswerFile(file); err != nil {
+			break
+		}
+		if err := CopyJudgeFile(data["QuestionID"]); err != nil {
+			break
+		}
+		if err := InputAnswer(answerData, file); err != nil {
+			break
+		}
+		if err := RunJudge(data["Lang"]); err != nil {
+			break
+		}
+		fmt.Println("done")
+		ret = Read() //retにReadから受け取った判定結果のMapを受け取る
 	}
 	DelWorkSpace()
 	return

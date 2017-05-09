@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#callback'
   get '/logout', to: 'sessions#destroy', as: :logout
 
+
   root 'home#top'
+  resources :questions
 end

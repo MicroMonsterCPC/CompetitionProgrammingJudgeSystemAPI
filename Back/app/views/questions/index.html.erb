@@ -1,0 +1,11 @@
+<h1>Questions</h1>
+
+<%= link_to "NewQuestion", new_question_path, :class => 'btn btn-default' %>
+<br>
+<br>
+
+<ul>
+  <% @questions.each do |question| %>
+    <li><%= link_to question.title, question %></li>
+  <% end %>
+</ul>

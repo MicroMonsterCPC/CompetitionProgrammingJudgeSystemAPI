@@ -3,7 +3,7 @@ curl \
     -X POST \
     http://localhost:1323/answer-data \
     -H 'Content-Type: application/json' \
-    -d '{"question_id": "D001", "answer_data": "puts gets.chomp.to_i", "lang": "rb"}'
+    -d '{"question_id": "1", "answer_data": "puts gets.chomp.to_i", "lang": "rb"}'
 
 # curl \
 #     -X POST \

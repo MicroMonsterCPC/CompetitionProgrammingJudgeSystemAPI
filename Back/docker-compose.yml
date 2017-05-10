@@ -15,6 +15,7 @@ services:
     - PORT=3000
     - GITHUB_KEY
     - GITHUB_SECRET
+    - API_URL
     volumes:
     - .:/app
     - bundle_install:/app/vendor/bundle

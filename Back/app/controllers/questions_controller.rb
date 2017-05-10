@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
+        send_new_question("create", @question.id,@question.answer)
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
       else
@@ -48,12 +49,26 @@ class QuestionsController < ApplicationController
 
   private
 
+  def send_new_question(action, question_id, question_answer)
+    require 'net/http'
+    require 'uri'
+    res = Net::HTTP.post_form(
+      URI.parse("#{ENV["API_URL"]}/create-answer"),
+      {
+        "action" => action,
+        "id" => question_id, 
+        "answer" => question_answer
+      }
+    )
+    puts res.body
+  end
+
   def current_user
     return User.find_by(uid: session[:user_id])
   end
   # Never trust parameters from the scary internet, only allow the white list through.
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :answer)
   end
 
 end

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./CreateQuestion"
+	"./AnswersController"
 	"./Judge"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -13,6 +13,11 @@ type (
 		QuestionID string `json:"question_id"`
 		AnswerData string `json:"answer_data"`
 		Lang       string `json:"lang"`
+	}
+	WantoToCreateAnswerJson struct {
+		Action     string `json:action`
+		QuestionID string `json:"id"`
+		AnswerData string `json:"answer"`
 	}
 )
 
@@ -26,8 +31,23 @@ func main() {
 	//=======Routers=======
 	e.GET("/", homePage)
 	e.POST("/answer-data", answerData)
+	e.POST("/create-answer", cudAnswer)
 
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func cudAnswer(c echo.Context) error {
+	WantoToCreateAnswer := new(WantoToCreateAnswerJson)
+	if err := c.Bind(WantoToCreateAnswer); err != nil {
+		return err
+	}
+	hoge := map[string]string{
+		"Action":     WantoToCreateAnswer.Action,
+		"QuestionID": WantoToCreateAnswer.QuestionID,
+		"AnswerData": WantoToCreateAnswer.AnswerData,
+	}
+	result := AnswersController.Main(hoge) // map[string]bool
+	return c.JSON(http.StatusOK, result)
 }
 
 func answerData(c echo.Context) error {

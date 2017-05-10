@@ -62,7 +62,7 @@ func RunJudge(lang string) (err error) {
 }
 
 func CopyJudgeFile(questionID string) (err error) {
-	cmd := "cp Judge/Questions/" + questionID + "/input.txt " + "Judge/WorkSpace"
+	cmd := "cp Judge/Questions/" + questionID + ".txt " + "Judge/WorkSpace/input.txt"
 	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
 		fmt.Println("inputFileのコピーが失敗しました")
 	}

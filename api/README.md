@@ -1,7 +1,9 @@
-# API仕様書
+## API仕様書
 
-# /api/questions
+## /api/questions
 問題の一覧を取得
+
+APIを叩いたときに取得できるフォーマット
 
 ~~~json
 [  {
@@ -44,9 +46,10 @@
 |body|本題問題文|String|
 |created_at|問題の作成時間|String|
 
-# /answer-data
+## /answer-data
 解答の提出に使うAPI
 
+解答提出の際以下のようなフォーマットにしてください
 ~~~json
 {
     "QuestionID": "",
@@ -81,17 +84,17 @@
 ### Lang
 使用した言語の「拡張子」を入力する。  
 
-現在対応してる言語  
+***現在対応してる言語*** 
 
 |ProgrammingLang|extension|
 |:--|:--|
 |Ruby|rb|
 |Python|py|
 
-# /create-answer(解答を作る)
+## /create-answer(解答を作る)
 ***基本的にこのAPIはRailsからの使用になるのでClientが使うことはない***
 
-## POST形式(提出する場合の形式)
+POST形式(提出する場合の形式)
 
 ~~~json
 {

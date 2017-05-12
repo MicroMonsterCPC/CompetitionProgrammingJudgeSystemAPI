@@ -1,9 +1,0 @@
-version: '2'
-services:
-  api:
-    build: .
-    command: go run Main.go
-    volumes:
-      - .:/echo-server
-    ports:
-      - 1323:1323

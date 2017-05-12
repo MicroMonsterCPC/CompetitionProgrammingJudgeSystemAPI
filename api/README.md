@@ -1,6 +1,50 @@
 # API仕様書
 
-# /answer-data(解答の提出)
+# /api/questions
+問題の一覧を取得
+
+~~~json
+[  {
+    "id": 0,
+    "title": "",
+    "body": "",
+    "created_at": "YY-mm-ddTHH:MM:SS",
+  },
+  {
+      "id": 0,
+      "title": "",
+      "body": "",
+      "created_at": "YY-mm-ddTHH:MM:SS",
+    }
+]
+~~~
+
+見本
+
+~~~json
+[  {
+    "id": 1,
+    "title": "01 exchange",
+    "body": "0 => true\r\n1 => falseと０をtrue\r\n1をfalseとしてください",
+    "created_at": "2017-05-12T12:23:41.650Z",
+  },
+  {
+      "id": 2,
+      "title": "Big Alfabet",
+      "body": "a => A\r\nb => Bと小文字を大文字に変換して\r\n出力してください",
+      "created_at": "2017-05-12T12:25:48.572Z",
+    }
+]
+~~~
+
+|Key|Description|Type|
+|:--|:--|:--|
+|id|問題のID|Integer|
+|title|問題のタイトル|String|
+|body|本題問題文|String|
+|created_at|問題の作成時間|String|
+
+# /answer-data
 解答の提出に使うAPI
 
 ~~~json

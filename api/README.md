@@ -1,8 +1,55 @@
-# API仕様書
+## API仕様書
 
-# /answer-data(解答の提出)
+## /api/questions
+問題の一覧を取得
+
+APIを叩いたときに取得できるフォーマット
+
+~~~json
+[  {
+    "id": 0,
+    "title": "",
+    "body": "",
+    "created_at": "YY-mm-ddTHH:MM:SS",
+  },
+  {
+      "id": 0,
+      "title": "",
+      "body": "",
+      "created_at": "YY-mm-ddTHH:MM:SS",
+    }
+]
+~~~
+
+見本
+
+~~~json
+[  {
+    "id": 1,
+    "title": "01 exchange",
+    "body": "0 => true\r\n1 => falseと０をtrue\r\n1をfalseとしてください",
+    "created_at": "2017-05-12T12:23:41.650Z",
+  },
+  {
+      "id": 2,
+      "title": "Big Alfabet",
+      "body": "a => A\r\nb => Bと小文字を大文字に変換して\r\n出力してください",
+      "created_at": "2017-05-12T12:25:48.572Z",
+    }
+]
+~~~
+
+|Key|Description|Type|
+|:--|:--|:--|
+|id|問題のID|Integer|
+|title|問題のタイトル|String|
+|body|本題問題文|String|
+|created_at|問題の作成時間|String|
+
+## /answer-data
 解答の提出に使うAPI
 
+解答提出の際以下のようなフォーマットにしてください
 ~~~json
 {
     "QuestionID": "",
@@ -37,17 +84,17 @@
 ### Lang
 使用した言語の「拡張子」を入力する。  
 
-現在対応してる言語  
+***現在対応してる言語*** 
 
 |ProgrammingLang|extension|
 |:--|:--|
 |Ruby|rb|
 |Python|py|
 
-# /create-answer(解答を作る)
+## /create-answer(解答を作る)
 ***基本的にこのAPIはRailsからの使用になるのでClientが使うことはない***
 
-## POST形式(提出する場合の形式)
+POST形式(提出する場合の形式)
 
 ~~~json
 {

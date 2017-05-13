@@ -4,4 +4,6 @@ class Answer < ApplicationRecord
 
   has_many :user_answers
   has_many :users, :through => :user_answers
+
+  validates :code, :lang, presence: true
 end

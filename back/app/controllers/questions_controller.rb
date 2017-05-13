@@ -11,8 +11,8 @@ class Hoge
       id: question_id,
       answer: question_answer
     }
-    client = Faraday.new(:url => "#{ENV["API_URL"]}")
-    res = client.post "/create-answer", data
+    client = Faraday.new(:url => "http://api:1323")
+    res = client.post("/create-answer", data)
     body = JSON.parse res.body
     p body
   end

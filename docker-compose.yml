@@ -4,26 +4,7 @@ services:
   db:
     image: postgres:9.6.2-alpine
     volumes:
-    - postgres_data:/var/lib/postgresql/data
-  web:
-    build:
-      context: ./back
-    command: bundle exec puma --config config/puma.rb
-    environment:
-    - RAILS_ENV=development
-    - PORT=3000
-    - GITHUB_KEY
-    - GITHUB_SECRET
-    - API_URL
-    volumes:
-    - ./back:/app
-    - bundle_install:/app/vendor/bundle
-    - bundle:/app/.bundle
-    ports:
-    - 3000:3000
-    depends_on:
-    - api
-    - db
+      - postgres_data:/var/lib/postgresql/data
   api:
     build: 
       context: ./api
@@ -32,6 +13,25 @@ services:
       - ./api:/echo-server
     ports:
       - 1323:1323
+  web:
+    build:
+      context: ./back
+    command: bundle exec puma --config config/puma.rb
+    environment:
+      - RAILS_ENV=development
+      - PORT=3000
+      - GITHUB_KEY
+      - GITHUB_SECRET
+      - API_URL
+    volumes:
+      - ./back:/app
+      - bundle_install:/app/vendor/bundle
+      - bundle:/app/.bundle
+    ports:
+      - 3000:3000
+    links: 
+      - api
+      - db
 
 volumes:
   postgres_data:

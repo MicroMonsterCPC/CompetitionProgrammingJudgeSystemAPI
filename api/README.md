@@ -91,6 +91,14 @@ APIを叩いたときに取得できるフォーマット
 |Ruby|rb|
 |Python|py|
 
+なお内部的エラーやJSONのKEYのSyntaxによるErrorは以下のように返却されます
+
+~~~json
+{
+    "Result": null
+}
+~~~
+
 ## /create-answer(解答を作る)
 ***基本的にこのAPIはRailsからの使用になるのでClientが使うことはない***
 

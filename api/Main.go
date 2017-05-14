@@ -3,6 +3,7 @@ package main
 import (
 	"./AnswersController"
 	"./Judge"
+	"github.com/k0kubun/pp"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"net/http"
@@ -15,7 +16,7 @@ type (
 		Lang       string `json:"lang"`
 	}
 	WantoToCreateAnswerJson struct {
-		Action     string `json:action`
+		Action     string `json:"action"`
 		QuestionID string `json:"id"`
 		AnswerData string `json:"answer"`
 	}
@@ -39,14 +40,16 @@ func main() {
 func cudAnswer(c echo.Context) error {
 	WantoToCreateAnswer := new(WantoToCreateAnswerJson)
 	if err := c.Bind(WantoToCreateAnswer); err != nil {
+		pp.Println(err)
 		return err
 	}
-	hoge := map[string]string{
+	pp.Println(WantoToCreateAnswer)
+	getData := map[string]string{
 		"Action":     WantoToCreateAnswer.Action,
 		"QuestionID": WantoToCreateAnswer.QuestionID,
 		"AnswerData": WantoToCreateAnswer.AnswerData,
 	}
-	result := AnswersController.Main(hoge) // map[string]bool
+	result := AnswersController.Main(getData) // map[string]bool
 	return c.JSON(http.StatusOK, result)
 }
 
@@ -61,6 +64,7 @@ func answerData(c echo.Context) error {
 		"AnswerData": data.AnswerData,
 		"Lang":       data.Lang,
 	}
+	pp.Println(userResult)
 	var judgeResult []map[string]string = Judge.Main(userResult)
 	//受け取ったUserの解答データをJudgeに投げる
 	result := map[string][]map[string]string{

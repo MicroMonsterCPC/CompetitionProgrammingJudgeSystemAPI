@@ -1,20 +1,23 @@
 require "faraday"
 require "json"
 
-class Hoge
-  def self.send_new_question(action, question_id, question_answer)
-    puts action
-    puts question_id
-    puts question_answer
+class QuestionAnswer
+  def self.send_new_action(action, question_id, question_answer)
     data = {
-      action: action,
-      id: question_id,
-      answer: question_answer
+      "action": action,
+      "id": question_id.to_s,
+      "answer": question_answer
     }
     client = Faraday.new(:url => "http://api:1323")
-    res = client.post("/create-answer", data)
-    body = JSON.parse res.body
-    p body
+    client.post do |req|
+      req.url '/create-answer'
+      req.headers['Content-Type'] = 'application/json'
+      req.body = data.to_json
+      p req
+    end
+    return true
+    # future implementation ↓
+    # return JSON.parse(hoge).["Result"]
   end
 end
 
@@ -36,11 +39,11 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     respond_to do |format|
-      if @question.save
-        Hoge.send_new_question("create", @question.id,@question.answer)
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
-        format.json { render :show, status: :created, location: @question }
+      if @question.save && QuestionAnswer.send_new_action("create", @question.id, @question.answer)
+          format.html { redirect_to @question, notice: 'Question was successfully created.' }
+          format.json { render :show, status: :created, location: @question }
       else
+        QuestionAnswer.send_new_action("Delete", @question.id, "")
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end

@@ -26,6 +26,7 @@ func Create(AnswerData map[string]string) (ret bool) {
 	if err := exec.Command("sh", "-c", cmd).Run(); err != nil {
 		fmt.Println("AnswerFileの作成が失敗しました")
 		ret = false
+		return
 	}
 	ret = true
 	return

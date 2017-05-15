@@ -49,6 +49,7 @@ func Delete(AnswerData map[string]string) (ret bool) {
 	cmd := "rm ./Judge/Questions/" + AnswerData["QuestionID"] + ".txt"
 	if err := exec.Command(cmd).Run; err != nil {
 		ret = false
+		return
 	}
 	ret = true
 	return

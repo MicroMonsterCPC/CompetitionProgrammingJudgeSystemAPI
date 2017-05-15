@@ -36,11 +36,14 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     respond_to do |format|
-      if @question.save && QuestionAnswer.send_new_action("create", @question.id, @question.answer)
+      if @question.save 
+        if QuestionAnswer.send_new_action("create", @question.id, @question.answer)
           format.html { redirect_to @question, notice: 'Question was successfully created.' }
           format.json { render :show, status: :created, location: @question }
+        else 
+          @question.destroy if QuestionAnswer.send_new_action("Delete", @question.id, "")
+        end
       else
-        QuestionAnswer.send_new_action("Delete", @question.id, "")
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end

@@ -9,6 +9,8 @@ Dockerに流し込んで
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"os/exec"
 )
 
@@ -21,7 +23,7 @@ func Main(data map[string]string) (ret []map[string]string) {
 			fmt.Println(err)
 			break
 		}
-		if err := MakeAnswerFile(file); err != nil {
+		if err := MakeAnswerFile(); err != nil {
 			break
 		}
 		if err := CopyJudgeFile(data["QuestionID"]); err != nil {
@@ -55,7 +57,8 @@ func RunCmd(lang string) (cmd, image string) {
 func RunJudge(lang string) (err error) {
 	cmd, image := RunCmd(lang)
 	runCmd := "./Judge/docker_container_start.sh " + cmd + " " + image
-	if err = exec.Command("sh", "-c", runCmd).Run(); err != nil {
+	if err = exec.Command(runCmd).Run(); err != nil {
+		fmt.Println(err)
 		fmt.Println("Runコマンドが失敗しました")
 	}
 	return
@@ -70,24 +73,14 @@ func CopyJudgeFile(questionID string) (err error) {
 }
 
 func InputAnswer(answerData, file string) (err error) {
-	cmd := "echo " + answerData + ">" + file
-	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
-		fmt.Println("Answerの入力が失敗しました")
+	content := []byte(answerData)
+	if err := ioutil.WriteFile(file, content, os.ModePerm); err != err {
+		fmt.Println("AnswerFileの作成に失敗しました")
 	}
 	return
 }
 
-func DelAnswerFile(file string) (err error) {
-	if err = exec.Command("rm", file).Run(); err != nil {
-		fmt.Println("AnswerFileの削除に失敗しました")
-	}
-	return
-}
-
-func MakeAnswerFile(file string) (err error) {
-	if err = exec.Command("touch", file).Run(); err != nil {
-		fmt.Println("AnswerFileの作成が失敗しました")
-	}
+func MakeAnswerFile() (err error) {
 	copyCmd := "cp Judge/judge_run.sh Judge/WorkSpace"
 	if err = exec.Command("sh", "-c", copyCmd).Run(); err != nil {
 		fmt.Println("JudgeRun.shのコピーに失敗しました")

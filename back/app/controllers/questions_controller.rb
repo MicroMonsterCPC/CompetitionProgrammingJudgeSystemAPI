@@ -9,15 +9,12 @@ class QuestionAnswer
       "answer": question_answer
     }
     client = Faraday.new(:url => "http://api:1323")
-    client.post do |req|
+    res = client.post do |req|
       req.url '/create-answer'
       req.headers['Content-Type'] = 'application/json'
       req.body = data.to_json
-      p req
     end
-    return true
-    # future implementation ↓
-    # return JSON.parse(hoge).["Result"]
+    return JSON.parse(res.body)["Result"]
   end
 end
 
@@ -39,11 +36,14 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     respond_to do |format|
-      if @question.save && QuestionAnswer.send_new_action("create", @question.id, @question.answer)
+      if @question.save 
+        if QuestionAnswer.send_new_action("create", @question.id, @question.answer)
           format.html { redirect_to @question, notice: 'Question was successfully created.' }
           format.json { render :show, status: :created, location: @question }
+        else 
+          @question.destroy if QuestionAnswer.send_new_action("Delete", @question.id, "")
+        end
       else
-        QuestionAnswer.send_new_action("Delete", @question.id, "")
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
@@ -52,7 +52,7 @@ class QuestionsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @user.update(question_params)
+      if @question.update(question_params) && QuestionAnswer.send_new_action("Update", @question.id, @question.answer)
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }
         format.json { render :show, status: :ok, location: @question }
       else

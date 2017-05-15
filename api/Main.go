@@ -11,10 +11,11 @@ import (
 
 type (
 	answerDataJson struct {
-		QuestionID string `json:"question_id"`
-		AnswerData string `json:"answer_data"`
+		QuestionID string `json:"id"`
+		AnswerData string `json:"code"`
 		Lang       string `json:"lang"`
 	}
+	//Client側では使わない
 	WantoToCreateAnswerJson struct {
 		Action     string `json:"action"`
 		QuestionID string `json:"id"`

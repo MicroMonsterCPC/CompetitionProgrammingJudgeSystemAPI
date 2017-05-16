@@ -1,4 +1,4 @@
-FROM ruby:2.4.0-alpine
+FROM ruby:2.3.4-alpine
 
 ENV APP /app
 WORKDIR $APP
@@ -14,11 +14,12 @@ RUN apk --update add --virtual build-deps \
 
 COPY . $APP
 
-RUN gem update && \
+RUN bundle update && gem update && \
 bundle install --jobs=4 --path vendor/bundle \
   && mkdir -p $APP/tmp/cache \
   && mkdir -p $APP/tmp/pids \
   && mkdir -p $APP/tmp/sockets
 
 RUN apk del build-deps \
-  && rm -rf /var/cache/apk/*
+   && rm -rf /var/cache/apk/*
+

@@ -75,5 +75,5 @@ func answerData(c echo.Context) error {
 }
 
 func homePage(c echo.Context) error {
-	return c.String(http.StatusOK, "This is a API")
+	return c.String(http.StatusOK, "This is a CompetitionProgrammingJudgeSystem the API")
 }

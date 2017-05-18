@@ -8,11 +8,11 @@ services:
   api:
     build: 
       context: ./api
-    command: go run Main.go
+    command: gin -a 1323 -p 4000
     volumes:
       - ./api:/echo-server
     ports:
-      - 1323:1323
+      - 1323:4000
   web:
     build:
       context: ./back

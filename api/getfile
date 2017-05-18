@@ -1,5 +1,6 @@
 #!/bin/sh
 
 go get github.com/labstack/echo
+ go get github.com/codegangsta/gin
 go get github.com/k0kubun/pp
 go get github.com/dgrijalva/jwt-go

@@ -9,4 +9,4 @@ RUN sh ./getfile
 
 EXPOSE 1323
 
-CMD ["go", "run", "Main.go"]
+CMD ["gin"]

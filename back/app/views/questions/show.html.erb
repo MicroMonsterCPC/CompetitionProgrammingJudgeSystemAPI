@@ -1,3 +1,39 @@
 <h1><%= @question.title %></h1>
 
 <p><%= @question.body %></p>
+
+<form>
+
+  UseingLang：
+  <select id="lang">
+    <option value="rb">Ruby</option>
+    <option value="py">Python</option>
+  </select>
+
+  <textarea id="code" name="code" cols="30" rows="10"></textarea>
+  <input id="answerSend" type="submit" value="Judge">
+
+</form>
+
+<script type="text/javascript">
+$(function(){
+  $('#answerSend').click(
+    function(){
+      $.ajax({
+        type: 'post',
+        url: 'http://localhost:4567/answer-data',
+        scriptCharset: 'utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+          'id': <%= @question.id %>,
+          'code': $('#code').val(),
+          'lang': $('#lang').val()
+        }),
+        success: function(data){
+          alert(data);
+        }
+      });
+    }
+  );
+}); 
+</script>

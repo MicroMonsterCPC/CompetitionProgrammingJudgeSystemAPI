@@ -27,6 +27,8 @@ services:
       - ./back:/app
       - bundle_install:/app/vendor/bundle
       - bundle:/app/.bundle
+    tty: true
+    stdin_open: true
     ports:
       - 3000:3000
     links: 

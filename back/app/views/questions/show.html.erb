@@ -2,6 +2,13 @@
 
 <p><%= @question.body %></p>
 
+<% form_for(@answer, url: answers_create_path) do |f| %>
+  <%= f.select :lang, {
+    "Ruby" => "rb",
+    "Python" => "py" } %>
+  <%= f.text_area :code %>
+<% end %>
+
 <form>
 
   UseingLang：
@@ -15,25 +22,3 @@
 
 </form>
 
-<script type="text/javascript">
-$(function(){
-  $('#answerSend').click(
-    function(){
-      $.ajax({
-        type: 'post',
-        url: 'http://localhost:4567/answer-data',
-        scriptCharset: 'utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-          'id': <%= @question.id %>,
-          'code': $('#code').val(),
-          'lang': $('#lang').val()
-        }),
-        success: function(data){
-          alert(data);
-        }
-      });
-    }
-  );
-}); 
-</script>

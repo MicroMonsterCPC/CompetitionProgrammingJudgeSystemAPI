@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#callback'
   get '/logout', to: 'sessions#destroy', as: :logout
 
+  post "/answers/create", to: "answers#create"
+
 
   root 'home#top'
   resources :questions

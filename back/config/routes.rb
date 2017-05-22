@@ -8,10 +8,11 @@ Rails.application.routes.draw do
 
   get 'auth/:provider/callback', to: 'sessions#callback'
   get '/logout', to: 'sessions#destroy', as: :logout
+  get '/success', to: 'home#success', as: :success
 
-  post "/answers/create", to: "answers#create"
-
+  # post "/answers/create", to: "answers#create", as: :create_answer
 
   root 'home#top'
   resources :questions
+  resources :answers, :only => [:index, :create]
 end

@@ -1,24 +1,28 @@
 <h1><%= @question.title %></h1>
 
- <%= markdown(@question.body).html_safe %>
+<%= markdown(@question.body).html_safe %>
 
-<% form_for(@answer) do |f| %>
+<%= form_for @answer do |f| %>
   <%= f.select :lang, {
-    "Ruby" => "rb",
-    "Python" => "py" } %>
-  <%= f.text_area :code %>
+    "Ruby" => "ruby",
+    "Python" => "python" } %>
+  <%= f.text_area :code, :id => "code", :class => "my-code-area" %>
+  <%= f.submit %>
 <% end %>
 
-<form>
+<script>
+//default lang
+$('.my-code-area').ace( { theme: 'eclipse', lang: "ruby" } );
 
-  UseingLang：
-  <select id="lang">
-    <option value="rb">Ruby</option>
-    <option value="py">Python</option>
-  </select>
+//change lang
+$("select").click(function() {
+  console.log($('#answer_lang').val());
+  $('.my-code-area').ace(
+    { 
+      theme: 'eclipse', 
+      lang: $('#answer_lang').val()
+    }
+  );
+});
 
-  <textarea id="code" name="code" cols="30" rows="10"></textarea>
-  <input id="answerSend" type="submit" value="Judge">
-
-</form>
-
+</script>

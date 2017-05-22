@@ -18,6 +18,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bootstrap-sass'
 gem 'sass-rails'
+gem 'jquery-ace-rails'
 gem 'jquery-rails'
 # markdown
 gem 'redcarpet'

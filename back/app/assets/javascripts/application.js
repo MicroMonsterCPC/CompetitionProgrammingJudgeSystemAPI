@@ -13,4 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require ace/ace
+//= require ace/theme-eclipse
+//= require ace/mode-ruby
+//= require ace/mode-python
+//= require jquery-ace.min
 //= require_tree .

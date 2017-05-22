@@ -1,8 +1,8 @@
 <h1><%= @question.title %></h1>
 
-<p><%= @question.body %></p>
+ <%= markdown(@question.body).html_safe %>
 
-<% form_for(@answer, url: answers_create_path) do |f| %>
+<% form_for(@answer) do |f| %>
   <%= f.select :lang, {
     "Ruby" => "rb",
     "Python" => "py" } %>

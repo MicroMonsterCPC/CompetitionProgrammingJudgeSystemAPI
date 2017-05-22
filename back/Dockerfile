@@ -7,6 +7,7 @@ RUN apk --update add --virtual build-deps \
     build-base \
   && apk add \
     postgresql-dev \
+		make \
     tzdata \
 		nodejs \
   && rm -rf /var/cache/apk/* \
@@ -20,6 +21,6 @@ bundle install --jobs=4 --path vendor/bundle \
   && mkdir -p $APP/tmp/pids \
   && mkdir -p $APP/tmp/sockets
 
-RUN apk del build-deps \
-   && rm -rf /var/cache/apk/*
+# RUN apk del build-deps \
+#    && rm -rf /var/cache/apk/*
 

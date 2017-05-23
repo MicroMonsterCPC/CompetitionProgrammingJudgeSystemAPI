@@ -42,6 +42,7 @@ func main() {
 func cudAnswer(c echo.Context) error {
 	WantoToCreateAnswer := new(WantoToCreateAnswerJson)
 	if err := c.Bind(WantoToCreateAnswer); err != nil {
+		fmt.Println("[E]: Bind Error")
 		pp.Println(err)
 		return err
 	}

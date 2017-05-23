@@ -18,12 +18,14 @@ import (
 func Read() (ret []map[string]string) {
 	file, err := os.Open(`Judge/WorkSpace/data`)
 	if err != nil {
+		fmt.Println(err)
 		fmt.Println("ファイルが見つかりませんでした")
 	}
 	defer file.Close()
 	sc := bufio.NewScanner(file)
 	for i := 1; sc.Scan(); i++ {
 		if err := sc.Err(); err != nil {
+			fmt.Println(err)
 			break
 		}
 		//ToDo: ここでData（,区切り）のデータをSplitしてMapに入れる

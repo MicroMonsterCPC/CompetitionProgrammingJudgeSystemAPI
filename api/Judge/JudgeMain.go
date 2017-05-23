@@ -24,15 +24,19 @@ func Main(data map[string]string) (ret []map[string]string) {
 			break
 		}
 		if err := MakeAnswerFile(); err != nil {
+			fmt.Println(err)
 			break
 		}
 		if err := CopyJudgeFile(data["QuestionID"]); err != nil {
+			fmt.Println(err)
 			break
 		}
 		if err := InputAnswer(answerData, file); err != nil {
+			fmt.Println(err)
 			break
 		}
 		if err := RunJudge(data["Lang"]); err != nil {
+			fmt.Println(err)
 			break
 		}
 		fmt.Println("done")

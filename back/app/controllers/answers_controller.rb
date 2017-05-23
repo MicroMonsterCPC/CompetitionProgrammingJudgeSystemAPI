@@ -1,3 +1,6 @@
+require "faraday"
+require "json"
+
 class AnswersController < ApplicationController
   def index
     puts "index"
@@ -7,18 +10,16 @@ class AnswersController < ApplicationController
     p @answer = Answer.new(answer_params)
     if @answer.save
       data = {
-        "id":   @answer.id,
+        "id":   @answer.question_id.to_s,
         "code": @answer.code,
         "lang": @answer.lang
       }
-      # http://api:1323
-      client = Faraday.new(:url => "http://localhost:4567")
+      client = Faraday.new(:url => "http://api:1323")
       res = client.post do |req|
         req.url '/answer-data'
         req.headers['Content-Type'] = 'application/json'
         req.body = data.to_json
       end
-      # return JSON.parse(res.body)["Result"]
       redirect_to :success
     else
       puts "Error"

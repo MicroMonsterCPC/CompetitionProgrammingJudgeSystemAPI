@@ -3,6 +3,7 @@ package main
 import (
 	"./AnswersController"
 	"./Judge"
+	"fmt"
 	"github.com/k0kubun/pp"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -11,15 +12,15 @@ import (
 
 type (
 	answerDataJson struct {
-		QuestionID string `json:"id"`
-		AnswerData string `json:"code"`
-		Lang       string `json:"lang"`
+		QuestionID string `json:"id" xml:"id" form:"name" query:"name"`
+		AnswerData string `json:"code" xml:"code" form:"code" query:"name"`
+		Lang       string `json:"lang" xml:"lang" form:"lang" qyery:"lang"`
 	}
 	//Client側では使わない
 	WantoToCreateAnswerJson struct {
-		Action     string `json:"action"`
-		QuestionID string `json:"id"`
-		AnswerData string `json:"answer"`
+		Action     string `json:"action" xml:"action" form:"action" query:"action"`
+		QuestionID string `json:"id" xml:"id" form:"" query:"id"`
+		AnswerData string `json:"answer" xml:"answer" form:"answer" query:"answer"`
 	}
 )
 
@@ -58,14 +59,16 @@ func answerData(c echo.Context) error {
 	//POSTされてきたJSONデータをMAPに変換してJudgeに流す
 	data := new(answerDataJson)
 	if err := c.Bind(data); err != nil {
+		fmt.Println("[E]: Bind Error")
+		fmt.Println(err)
 		return err
 	}
+	pp.Println(data)
 	userResult := map[string]string{
 		"QuestionID": data.QuestionID,
 		"AnswerData": data.AnswerData,
 		"Lang":       data.Lang,
 	}
-	pp.Println(userResult)
 	var judgeResult []map[string]string = Judge.Main(userResult)
 	//受け取ったUserの解答データをJudgeに投げる
 	result := map[string][]map[string]string{

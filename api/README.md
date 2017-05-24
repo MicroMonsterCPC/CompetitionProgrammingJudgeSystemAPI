@@ -1,12 +1,13 @@
 ## API仕様書
 
-## /api/questions
+## localhost:3000/api/questions
 問題の一覧を取得
 
 APIを叩いたときに取得できるフォーマット
 
 ~~~json
-[  {
+[  
+  {
     "id": 0,
     "title": "",
     "body": "",
@@ -46,7 +47,7 @@ APIを叩いたときに取得できるフォーマット
 |body|本題問題文|String|
 |created_at|問題の作成時間|String|
 
-## /answer-data
+## localhost:1323/judgement-answer(POST)
 解答の提出に使うAPI
 
 解答提出の際以下のようなフォーマットにしてください
@@ -99,14 +100,14 @@ APIを叩いたときに取得できるフォーマット
 }
 ~~~
 
-## /create-answer(解答を作る)
+## localhost:1323/answer(POST)
 ***基本的にこのAPIはRailsからの使用になるのでClientが使うことはない***
 
-POST形式(提出する場合の形式)
+PUTで送信するとUPDATE、DELETEで送信すると回答を消すことができますが  
+DELETEの場合はQuestionIDだけでいい
 
 ~~~json
 {
-    "Action": "",
     "QuestionID": "",
     "AnswerData": "",
 }
@@ -116,7 +117,6 @@ POST形式(提出する場合の形式)
 
 ~~~json
 {
-    "Action": "Create",
     "QuestionID": "1",
     "AnswerData": "1,1\n2,3\n3,6\n4,10\n5,15",
 }
@@ -124,16 +124,12 @@ POST形式(提出する場合の形式)
 
 |Key|Value|Type|
 |:--|:--|:--|
-|Action|Create,Update,Delete|String|
 |QuestionID|1~|Integer|
 |AnswerData|[,]区切りでinputとoutput|String|
 
-### Action
-解答のCreate,Update,Deleteのどれを行うか指定する
-
 ### QuestionID
 問題のIDと関連するIDを指定する問題と異なるIDを指定すると  
-採点時に解答が有っていても異なる結果が帰ってくる  
+採点時に解答が合っていても異なる結果が帰ってくる  
 
 ### AnswerData
 [,]区切りで左に入力(case)、右に出力結果（答え）を入力する  

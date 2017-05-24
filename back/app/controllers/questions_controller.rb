@@ -10,7 +10,7 @@ class QuestionAnswer
     }
     client = Faraday.new(:url => "http://api:1323")
     res = client.post do |req|
-      req.url '/create-answer'
+      req.url '/answer'
       req.headers['Content-Type'] = 'application/json'
       req.body = data.to_json
     end

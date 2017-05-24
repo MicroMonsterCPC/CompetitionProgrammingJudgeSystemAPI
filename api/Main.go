@@ -1,11 +1,11 @@
 package main
 
 import (
-	"./AnswersController"
-	"./JudgementController"
+	"./apps/AnswersController"
+	"./apps/HomeController"
+	"./apps/JudgementController"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"net/http"
 )
 
 func main() {
@@ -16,8 +16,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	//=======Routers=======
-	e.GET("/", homePage)
-	e.POST("/judgement-answer", Judge.Execution)
+	e.GET("/", HomeController.Root)
+	e.POST("/judgement-answer", JudgementController.Execution)
 	// e.POST("/test-answer", testAnswers)
 
 	e.POST("/answer", AnswersController.Create)
@@ -25,7 +25,4 @@ func main() {
 	e.DELETE("/answer", AnswersController.Delete)
 
 	e.Logger.Fatal(e.Start(":1323"))
-}
-func homePage(c echo.Context) error {
-	return c.String(http.StatusOK, "This is a CompetitionProgrammingJudgeSystem the API")
 }

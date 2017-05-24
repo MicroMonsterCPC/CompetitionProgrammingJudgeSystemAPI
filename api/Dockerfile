@@ -1,4 +1,4 @@
-FROM golang 
+FROM golang
 
 ENV PATH $PATH:$GOPATH/bin:$GOROOT/bin
 

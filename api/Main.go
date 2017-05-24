@@ -2,7 +2,7 @@ package main
 
 import (
 	"./AnswersController"
-	"./Judge"
+	"./JudgementController"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"net/http"

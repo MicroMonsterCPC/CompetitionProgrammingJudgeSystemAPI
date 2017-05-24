@@ -2,55 +2,72 @@ package AnswersController
 
 import (
 	"fmt"
+	"github.com/k0kubun/pp"
+	"github.com/labstack/echo"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 )
 
-func Main(AnswerData map[string]string) (ret map[string]bool) {
-	var result bool
-	switch AnswerData["Action"] {
-	case "create":
-		result = Create(AnswerData)
-	case "update":
-		result = Update(AnswerData)
-	case "delete":
-		result = Delete(AnswerData)
+type (
+	WantoToCreateAnswerJson struct {
+		QuestionID string `json:"id" xml:"id" form:"" query:"id"`
+		AnswerData string `json:"answer" xml:"answer" form:"answer" query:"answer"`
 	}
-	ret = map[string]bool{
-		"Result": result,
+)
+
+func buildJSON(c echo.Context) (ret map[string]string) {
+	WantoToCreateAnswer := new(WantoToCreateAnswerJson)
+	if err := c.Bind(WantoToCreateAnswer); err != nil {
+		fmt.Println("[E]: Bind Error")
+		pp.Println(err)
+	}
+	pp.Println(WantoToCreateAnswer)
+	ret = map[string]string{
+		"QuestionID": WantoToCreateAnswer.QuestionID,
+		"AnswerData": WantoToCreateAnswer.AnswerData,
 	}
 	return
 }
 
-func Create(AnswerData map[string]string) (ret bool) {
+func resultParse(value bool) (ret map[string]bool) {
+	ret = map[string]bool{"Result": value}
+	return
+}
+
+/*======================
+controllers
+======================== */
+
+func Create(c echo.Context) error {
+	var result map[string]bool
+	AnswerData := buildJSON(c)
+
 	content := []byte(AnswerData["AnswerData"])
 	filename := "/echo-server/Judge/Questions/" + AnswerData["QuestionID"] + ".txt"
 	fmt.Println(filename)
 	if err := ioutil.WriteFile(filename, content, os.ModePerm); err != err {
-		ret = false
-		return
+		result = resultParse(false)
+	} else {
+		result = resultParse(true)
 	}
-	ret = true
-	return
-	// pwd, err := exec.Command("pwd").Output()
-	// if err != nil {
-	// 	ret = false
-	// 	return
-	// }
-	// string(pwd)
+	return c.JSON(http.StatusOK, result)
 }
 
-func Update(AnswerData map[string]string) (ret bool) {
-	return
-}
+// func Update(c echo.Context) {
+// 	Create()
+// }
 
-func Delete(AnswerData map[string]string) (ret bool) {
+func Delete(c echo.Context) error {
+	var result map[string]bool
+	AnswerData := buildJSON(c)
+
 	cmd := "rm ./Judge/Questions/" + AnswerData["QuestionID"] + ".txt"
 	if err := exec.Command(cmd).Run; err != nil {
-		ret = false
-		return
+		result = resultParse(false)
+	} else {
+		result = resultParse(true)
 	}
-	ret = true
-	return
+	return c.JSON(http.StatusOK, result)
 }

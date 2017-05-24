@@ -9,10 +9,43 @@ Dockerに流し込んで
 
 import (
 	"fmt"
+	"github.com/k0kubun/pp"
+	"github.com/labstack/echo"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 )
+
+type (
+	answerDataJson struct {
+		QuestionID string `json:"id" xml:"id" form:"name" query:"name"`
+		AnswerData string `json:"code" xml:"code" form:"code" query:"name"`
+		Lang       string `json:"lang" xml:"lang" form:"lang" qyery:"lang"`
+	}
+)
+
+func Execution(c echo.Context) error {
+	//POSTされてきたJSONデータをMAPに変換してJudgeに流す
+	data := new(answerDataJson)
+	if err := c.Bind(data); err != nil {
+		fmt.Println("[E]: Bind Error")
+		fmt.Println(err)
+		return err
+	}
+	pp.Println(data)
+	userResult := map[string]string{
+		"QuestionID": data.QuestionID,
+		"AnswerData": data.AnswerData,
+		"Lang":       data.Lang,
+	}
+	var judgeResult []map[string]string = Main(userResult)
+	//受け取ったUserの解答データをJudgeに投げる
+	result := map[string][]map[string]string{
+		"Result": judgeResult,
+	}
+	return c.JSON(http.StatusOK, result)
+}
 
 func Main(data map[string]string) (ret []map[string]string) {
 	file := "Judge/WorkSpace/Main." + data["Lang"]

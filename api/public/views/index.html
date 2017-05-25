@@ -720,7 +720,6 @@
     </style>
   </head>
   <body class="markdown-body">
-    <h2 id="api-">API仕様書</h2>
     <h2 id="localhost-3000-api-questions">localhost:3000/api/questions</h2>
     <p>問題の一覧を取得</p>
     <p>APIを叩いたときに取得できるフォーマット</p>
@@ -741,7 +740,9 @@
 ]
     </code></pre>
     <p>見本</p>
-    <pre><code class="lang-json">[  {
+    <pre><code class="lang-json">
+    [  
+    {
     &quot;id&quot;: 1,
     &quot;title&quot;: &quot;01 exchange&quot;,
     &quot;body&quot;: &quot;0 =&gt; true\r\n1 =&gt; falseと０をtrue\r\n1をfalseとしてください&quot;,
@@ -786,147 +787,54 @@
         </tr>
       </tbody>
     </table>
-    <h2 id="localhost-1323-judgement-answer-post-">localhost:1323/judgement-answer(POST)</h2>
-    <p>解答の提出に使うAPI</p>
-    <p>解答提出の際以下のようなフォーマットにしてください</p>
-    <pre><code class="lang-json">{
-    &quot;QuestionID&quot;: &quot;&quot;,
-    &quot;AnswerData&quot;: &quot;&quot;,
-    &quot;Lang&quot;: &quot;&quot;
-}
+
+    <h1>localhost:3000/answers(POST)</h1>
+    <p>回答の提出用</p>
+    <p>フォーマット</p>
+    <pre><code>
+      &quot;answers&quot;: {
+      &quot;question_id&quot;: &quot;&quot;,
+      &quot;code&quot;: &quot;&quot;,
+      &quot;lang&quot;: &quot;&quot;
+      }
     </code></pre>
+
     <p>見本</p>
-    <pre><code class="lang-json">{
-    &quot;QuestionID&quot;: &quot;1&quot;,
-    &quot;AnswerData&quot;: &quot;puts (1..gets.to_i).to_a.reduce(:+)&quot;,
-    &quot;Lang&quot;: &quot;rb&quot;
-}
+    <pre><code>
+      &quot;answers&quot;: {
+      &quot;question_id&quot;: &quot;1&quot;,
+      &quot;code&quot;: &quot;puts (1..gets.to_i).to_a.reduce(:*)&quot;,
+      &quot;lang&quot;: &quot;ruby&quot;
+      }
     </code></pre>
     <table>
       <thead>
         <tr>
           <th style="text-align:left">Key</th>
-          <th style="text-align:left">Value</th>
+          <th style="text-align:left">Description</th>
           <th style="text-align:left">Type</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align:left">QuestionID</td>
-          <td style="text-align:left">1~</td>
+          <td style="text-align:left">question_id</td>
+          <td style="text-align:left">問題のID</td>
           <td style="text-align:left">Integer</td>
         </tr>
         <tr>
-          <td style="text-align:left">AnswerData</td>
-          <td style="text-align:left">-</td>
+          <td style="text-align:left">code</td>
+          <td style="text-align:left">問題への回答</td>
           <td style="text-align:left">String</td>
         </tr>
         <tr>
-          <td style="text-align:left">Lang</td>
-          <td style="text-align:left">rb,py</td>
-          <td style="text-align:left">String</td>
-        </tr>
-      </tbody>
-    </table>
-    <h3 id="questionid">QuestionID</h3>
-    <p>問題のIDと関連するIDを指定する問題と異なるIDを指定すると<br>採点時に解答が有っていても異なる結果が帰ってくる  </p>
-    <h3 id="answerdata">AnswerData</h3>
-    <p>解答を入れる</p>
-    <h3 id="lang">Lang</h3>
-    <p>使用した言語の「拡張子」を入力する。  </p>
-    <p><strong><em>現在対応してる言語</em></strong> </p>
-    <table>
-      <thead>
-        <tr>
-          <th style="text-align:left">ProgrammingLang</th>
-          <th style="text-align:left">extension</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:left">Ruby</td>
-          <td style="text-align:left">rb</td>
-        </tr>
-        <tr>
-          <td style="text-align:left">Python</td>
-          <td style="text-align:left">py</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>なお内部的エラーやJSONのKEYのSyntaxによるErrorは以下のように返却されます</p>
-    <pre><code class="lang-json">{
-    &quot;Result&quot;: null
-}
-    </code></pre>
-    <h2 id="localhost-1323-answer-post-">localhost:1323/answer(POST)</h2>
-    <p><strong><em>基本的にこのAPIはRailsからの使用になるのでClientが使うことはない</em></strong></p>
-    <p>PUTで送信するとUPDATE、DELETEで送信すると回答を消すことができますが<br>DELETEの場合はQuestionIDだけでいい</p>
-    <pre><code class="lang-json">{
-    &quot;QuestionID&quot;: &quot;&quot;,
-    &quot;AnswerData&quot;: &quot;&quot;,
-}
-    </code></pre>
-    <p>見本</p>
-    <pre><code class="lang-json">{
-    &quot;QuestionID&quot;: &quot;1&quot;,
-    &quot;AnswerData&quot;: &quot;1,1\n2,3\n3,6\n4,10\n5,15&quot;,
-}
-    </code></pre>
-    <table>
-      <thead>
-        <tr>
-          <th style="text-align:left">Key</th>
-          <th style="text-align:left">Value</th>
-          <th style="text-align:left">Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:left">QuestionID</td>
-          <td style="text-align:left">1~</td>
-          <td style="text-align:left">Integer</td>
-        </tr>
-        <tr>
-          <td style="text-align:left">AnswerData</td>
-          <td style="text-align:left">[,]区切りでinputとoutput</td>
+          <td style="text-align:left">lang</td>
+          <td style="text-align:left">使用した言語</td>
           <td style="text-align:left">String</td>
         </tr>
       </tbody>
     </table>
-    <h3 id="questionid">QuestionID</h3>
-    <p>問題のIDと関連するIDを指定する問題と異なるIDを指定すると<br>採点時に解答が合っていても異なる結果が帰ってくる  </p>
-    <h3 id="answerdata">AnswerData</h3>
-    <p>[,]区切りで左に入力(case)、右に出力結果（答え）を入力する<br>Caseの数に上限はない<br>例:</p>
-    <pre><code>1,false
-0,true
-    </code></pre><h2 id="resule-">Resule形式</h2>
-    <pre><code class="lang-json">{
-    &quot;Result&quot;: &quot;&quot;
-}
-    </code></pre>
-    <p>見本</p>
-    <pre><code class="lang-json">{
-    &quot;Result&quot;: &quot;true&quot;
-}
-    </code></pre>
-    <table>
-      <thead>
-        <tr>
-          <th style="text-align:left">Key</th>
-          <th style="text-align:left">Value</th>
-          <th style="text-align:left">Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:left">Result</td>
-          <td style="text-align:left">true,false</td>
-          <td style="text-align:left">boolean</td>
-        </tr>
-      </tbody>
-    </table>
-    <h3 id="result">result</h3>
-    <p>解答ファイルの作成が成功したときはtrue作成できなければfalse</p>
+
+
 
   </body>
 </html>

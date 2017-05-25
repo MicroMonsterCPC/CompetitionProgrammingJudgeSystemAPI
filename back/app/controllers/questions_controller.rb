@@ -4,11 +4,13 @@ require "json"
 class QuestionAnswer
   def self.send_new_action(action, question_id, question_answer)
     data = {
-      "action": action,
       "id": question_id.to_s,
       "answer": question_answer
     }
-    client = Faraday.new(:url => "http://api:1323")
+    client = Faraday.new "http://api:1323" do |b|
+      b.adapter Faraday.default_adapter
+      b.basic_auth ENV{"AUTH_USERNAME"}, ENV["AUTH_PASSWORD"]
+    end
     res = client.post do |req|
       req.url '/answer'
       req.headers['Content-Type'] = 'application/json'

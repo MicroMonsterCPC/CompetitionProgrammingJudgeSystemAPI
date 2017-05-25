@@ -48,7 +48,7 @@ func Execution(c echo.Context) error {
 }
 
 func Main(data map[string]string) (ret []map[string]string) {
-	file := "Judge/WorkSpace/Main." + data["Lang"]
+	file := "apps/JudgementController/WorkSpace/Main." + data["Lang"]
 	answerData := data["AnswerData"]
 
 	for {
@@ -93,7 +93,7 @@ func RunCmd(lang string) (cmd, image string) {
 
 func RunJudge(lang string) (err error) {
 	cmd, image := RunCmd(lang)
-	runCmd := "./Judge/docker_container_start.sh " + cmd + " " + image
+	runCmd := ".apps/JudgementController/docker_container_start.sh " + cmd + " " + image
 	if err = exec.Command(runCmd).Run(); err != nil {
 		fmt.Println(err)
 		fmt.Println("Runコマンドが失敗しました")
@@ -102,7 +102,7 @@ func RunJudge(lang string) (err error) {
 }
 
 func CopyJudgeFile(questionID string) (err error) {
-	cmd := "cp Judge/Questions/" + questionID + ".txt " + "Judge/WorkSpace/input.txt"
+	cmd := "cp apps/JudgementController/Questions/" + questionID + ".txt " + "apps/JudgementController/WorkSpace/input.txt"
 	if err = exec.Command("sh", "-c", cmd).Run(); err != nil {
 		fmt.Println("inputFileのコピーが失敗しました")
 	}
@@ -118,14 +118,14 @@ func InputAnswer(answerData, file string) (err error) {
 }
 
 func MakeAnswerFile() (err error) {
-	copyCmd := "cp Judge/judge_run.sh Judge/WorkSpace"
+	copyCmd := "cp apps/JudgementController/judge_run.sh apps/JudgementController/WorkSpace"
 	if err = exec.Command("sh", "-c", copyCmd).Run(); err != nil {
 		fmt.Println("JudgeRun.shのコピーに失敗しました")
 	}
 	return
 }
 func DelWorkSpace() (err error) {
-	if err = exec.Command("rm", "-rf", "Judge/WorkSpace").Run(); err != nil {
+	if err = exec.Command("rm", "-rf", "apps/JudgementController/WorkSpace").Run(); err != nil {
 		fmt.Println("WorkSpaceの削除に失敗しました")
 	} else {
 		fmt.Println("WorkSpaceを削除しました")
@@ -134,7 +134,7 @@ func DelWorkSpace() (err error) {
 }
 
 func MakeWorkSpace() (err error) {
-	if err = exec.Command("mkdir", "Judge/WorkSpace").Run(); err != nil {
+	if err = exec.Command("mkdir", "apps/JudgementController/WorkSpace").Run(); err != nil {
 		fmt.Println("WorkSpaceの作成が失敗しました")
 	}
 	return

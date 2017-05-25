@@ -45,7 +45,7 @@ func Create(c echo.Context) error {
 	AnswerData := buildJSON(c)
 
 	content := []byte(AnswerData["AnswerData"])
-	filename := "/echo-server/Judge/Questions/" + AnswerData["QuestionID"] + ".txt"
+	filename := "/echo-server/apps/JudgementController/Questions/" + AnswerData["QuestionID"] + ".txt"
 	fmt.Println(filename)
 	if err := ioutil.WriteFile(filename, content, os.ModePerm); err != err {
 		result = resultParse(false)

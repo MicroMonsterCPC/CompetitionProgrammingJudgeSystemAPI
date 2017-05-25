@@ -2,7 +2,6 @@ class SessionsController < ApplicationController
   def callback
     auth = request.env['omniauth.auth']
     user = User.find_by(provider: auth['provider'], uid: auth['uid'])
-    puts user
     unless user
       user = User.create_with_omniauth(auth)
     end

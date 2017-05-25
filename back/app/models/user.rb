@@ -10,5 +10,6 @@ class User < ApplicationRecord
     user.name = auth['info']['nickname']
     user.oauth_token = auth['credentials']['token']
     user.save
+    return user
   end
 end

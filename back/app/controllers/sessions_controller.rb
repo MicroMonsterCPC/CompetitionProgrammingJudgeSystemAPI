@@ -6,6 +6,9 @@ class SessionsController < ApplicationController
     unless user
       user = User.create_with_omniauth(auth)
     end
+    puts "*" * 50
+    p user
+    puts "*" * 50
     session[:user_id] = user.id
     redirect_to root_path
   end

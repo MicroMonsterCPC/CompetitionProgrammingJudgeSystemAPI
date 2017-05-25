@@ -1,4 +1,4 @@
-package Judge
+package JudgementController
 
 /*==================================
 #役割

@@ -1,9 +1,7 @@
 package main
 
 import (
-	"./apps/AnswersController"
-	"./apps/HomeController"
-	"./apps/JudgementController"
+	"./config/Router"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"html/template"
@@ -22,7 +20,9 @@ func main() {
 	t := &Template{
 		templates: template.Must(template.ParseGlob("public/views/*.html")),
 	}
-	e := echo.New()
+
+	//=======Router=======
+	e := Router.NewRouter()
 
 	//=======Middleware=======
 	e.Use(middleware.Logger())
@@ -32,13 +32,5 @@ func main() {
 	e.Renderer = t
 
 	//=======Routers=======
-	e.GET("/", HomeController.Root)
-	e.POST("/judgement-answer", JudgementController.Execution)
-	// e.POST("/test-answer", testAnswers)
-
-	e.POST("/answer", AnswersController.Create)
-	// e.PUT("/answer", AnswersController.Update()
-	e.DELETE("/answer", AnswersController.Delete)
-
 	e.Logger.Fatal(e.Start(":1323"))
 }

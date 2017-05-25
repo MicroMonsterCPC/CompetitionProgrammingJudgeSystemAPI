@@ -1,7 +1,7 @@
 #!/bin/sh
 curl \
     -X POST \
-    http://localhost:1323/answer-data \
+    http://localhost:1323/judgement-answer \
     -H 'Content-Type: application/json' \
     -d '{"id": "1", "code": "puts gets.chomp.to_i", "lang": "rb"}'
 

@@ -10,12 +10,12 @@ import (
 
 func NewRouter() *echo.Echo {
 	e := echo.New()
-	e.GET("/", HomeController.Root, Auth.Basic())
-	e.POST("/judgement-answer", JudgementController.Execution)
+	e.GET("/", HomeController.Root)
+	e.POST("/judgement-answer", JudgementController.Execution, Auth.Basic())
 	// e.POST("/test-answer", testAnswers)
 
-	e.POST("/answer", AnswersController.Create)
+	e.POST("/answer", AnswersController.Create, Auth.Basic())
 	// e.PUT("/answer", AnswersController.Update()
-	e.DELETE("/answer", AnswersController.Delete)
+	e.DELETE("/answer", AnswersController.Delete, Auth.Basic())
 	return e
 }

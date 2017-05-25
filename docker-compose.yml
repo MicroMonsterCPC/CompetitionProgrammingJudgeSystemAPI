@@ -9,6 +9,7 @@ services:
     build: 
       context: ./api
     command: gin -a 1323 -p 4000
+    env_file: .env
     volumes:
       - ./api:/echo-server
     ports:
@@ -20,9 +21,7 @@ services:
     environment:
       - RAILS_ENV=development
       - PORT=3000
-      - GITHUB_KEY
-      - GITHUB_SECRET
-      - API_URL
+    env_file: .env
     volumes:
       - ./back:/app
       - bundle_install:/app/vendor/bundle

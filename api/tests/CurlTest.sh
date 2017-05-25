@@ -1,5 +1,6 @@
 #!/bin/sh
 curl \
+    -u $AUTH_USERNAME:$AUTH_PASSWORD \
     -X POST \
     http://localhost:1323/judgement-answer \
     -H 'Content-Type: application/json' \

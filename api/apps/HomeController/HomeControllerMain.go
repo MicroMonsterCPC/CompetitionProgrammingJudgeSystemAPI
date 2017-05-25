@@ -6,6 +6,5 @@ import (
 )
 
 func Root(c echo.Context) error {
-	return c.Render(http.StatusOK, "hello", "world")
-	// return c.String(http.StatusOK, "This is a CompetitionProgrammingJudgeSystem the API")
+	return c.Render(http.StatusOK, "index", "")
 }

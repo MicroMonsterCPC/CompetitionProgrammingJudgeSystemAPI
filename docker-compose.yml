@@ -12,6 +12,7 @@ services:
     env_file: .env
     volumes:
       - ./api:/echo-server
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 1323:4000
   web:

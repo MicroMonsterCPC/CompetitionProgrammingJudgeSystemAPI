@@ -15,7 +15,7 @@ func NewRouter() *echo.Echo {
 	// e.POST("/test-answer", testAnswers)
 
 	e.POST("/answer", AnswersController.Create, Auth.Basic())
-	// e.PUT("/answer", AnswersController.Update()
+	e.PUT("/answer", AnswersController.Update, Auth.Basic())
 	e.DELETE("/answer", AnswersController.Delete, Auth.Basic())
 	return e
 }

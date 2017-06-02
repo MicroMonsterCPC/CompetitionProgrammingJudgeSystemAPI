@@ -55,9 +55,9 @@ func Create(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-// func Update(c echo.Context) {
-// 	Create()
-// }
+func Update(c echo.Context) error {
+	return Create(c)
+}
 
 func Delete(c echo.Context) error {
 	var result map[string]bool

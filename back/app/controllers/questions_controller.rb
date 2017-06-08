@@ -37,6 +37,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.user_id = session[:user_id]
 
     respond_to do |format|
       if @question.save 

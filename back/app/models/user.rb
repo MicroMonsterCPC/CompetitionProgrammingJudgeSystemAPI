@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-
-  has_many :user_answers
-  has_many :users, :through => :user_answers
+  has_many :answers
+  has_many :questions
 
   def self.create_with_omniauth(auth)
     user = User.new

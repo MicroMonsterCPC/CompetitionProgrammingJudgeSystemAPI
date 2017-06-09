@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
 
   def create
     p @answer = Answer.new(answer_params)
+    @answer.user_id = session[:user_id]
+
     if @answer.save
       data = {
         "id":   @answer.question_id.to_s,
